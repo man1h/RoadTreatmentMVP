@@ -44,8 +44,8 @@ const MapComponent: React.FC = () => {
     useEffect(() => {
         const fetchBridges = async () => {
             try {
-                // Fetch from our backend
-                const response = await axios.get('http://localhost:3000/api/bridges');
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+                const response = await axios.get(`${apiUrl}/api/bridges`);
                 setBridges(response.data);
             } catch (error) {
                 console.error('Error fetching bridges:', error);

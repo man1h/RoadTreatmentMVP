@@ -43,15 +43,12 @@ const TMCDashboard: React.FC = () => {
     const fetchDashboardData = async (tmcId: number) => {
         try {
             const token = localStorage.getItem('token');
-            // Fetch aggregated stats for this specific TMC
-            // We can reuse the statewide endpoint with a query param if we update it, 
-            // or just fetch individual endpoints for now.
-            // For MVP, let's fetch individual endpoints to build the stats
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
             const [trucksRes, ticketsRes, usersRes] = await Promise.all([
-                axios.get(`http://localhost:3000/api/trucks?tmcId=${tmcId}`, { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get(`http://localhost:3000/api/tickets?tmcId=${tmcId}&status=pending`, { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get(`http://localhost:3000/api/users`, { headers: { Authorization: `Bearer ${token}` } })
+                axios.get(`${apiUrl}/api/trucks?tmcId=${tmcId}`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${apiUrl}/api/tickets?tmcId=${tmcId}&status=pending`, { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get(`${apiUrl}/api/users`, { headers: { Authorization: `Bearer ${token}` } })
             ]);
 
             const activeTrucks = trucksRes.data.filter((t: any) => t.status !== 'out_of_service').length;
@@ -61,7 +58,7 @@ const TMCDashboard: React.FC = () => {
             setStats({
                 activeTrucks,
                 pendingTickets,
-                weatherAlerts: 0, // Weather widget handles this internally for now
+                weatherAlerts: 0,
                 activeDrivers
             });
 

@@ -42,7 +42,8 @@ const FleetManagement: React.FC = () => {
         if (!user?.tmc_id) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:3000/api/trucks?tmcId=${user.tmc_id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/trucks?tmcId=${user.tmc_id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (Array.isArray(response.data)) {
@@ -61,7 +62,8 @@ const FleetManagement: React.FC = () => {
         if (!window.confirm('Are you sure you want to delete this truck?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3000/api/trucks/${id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.delete(`${apiUrl}/api/trucks/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Socket will handle the update
@@ -75,7 +77,8 @@ const FleetManagement: React.FC = () => {
         const newStatus = truck.status === 'available' ? 'maintenance' : 'available';
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:3000/api/trucks/${truck.id}`,
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.put(`${apiUrl}/api/trucks/${truck.id}`,
                 { status: newStatus, capacityTons: truck.capacity_tons },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

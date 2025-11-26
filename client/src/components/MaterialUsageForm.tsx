@@ -26,8 +26,9 @@ const MaterialUsageForm: React.FC<MaterialUsageFormProps> = ({ isOpen, onClose, 
 
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             await axios.post(
-                'http://localhost:3000/api/materials/usage',
+                `${apiUrl}/api/materials/usage`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -25,7 +25,8 @@ const RestockForm: React.FC<RestockFormProps> = ({ isOpen, onClose, onSuccess })
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:3000/api/materials/restock', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.post(`${apiUrl}/api/materials/restock`, {
                 tmcId: user?.tmc_id,
                 materialType,
                 quantityTons: parseFloat(quantityTons)

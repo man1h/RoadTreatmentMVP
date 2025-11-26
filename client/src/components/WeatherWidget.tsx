@@ -27,7 +27,8 @@ const WeatherWidget: React.FC = () => {
                     return;
                 }
 
-                const response = await axios.get('http://localhost:3000/api/weather/alerts', {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+                const response = await axios.get(`${apiUrl}/api/weather/alerts`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setAlerts(response.data);

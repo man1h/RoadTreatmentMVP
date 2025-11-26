@@ -29,7 +29,8 @@ const EditMaterialModal: React.FC<EditMaterialModalProps> = ({ isOpen, onClose, 
 
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:3000/api/materials/${material.id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.put(`${apiUrl}/api/materials/${material.id}`, {
                 quantityTons: parseFloat(quantityTons)
             }, {
                 headers: { Authorization: `Bearer ${token}` }

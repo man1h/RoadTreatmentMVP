@@ -65,9 +65,10 @@ const TicketList: React.FC<TicketListProps> = ({ tmcId }) => {
     const fetchTickets = async () => {
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             const url = tmcId
-                ? `http://localhost:3000/api/tickets?tmcId=${tmcId}`
-                : 'http://localhost:3000/api/tickets';
+                ? `${apiUrl}/api/tickets?tmcId=${tmcId}`
+                : `${apiUrl}/api/tickets`;
 
             const response = await axios.get(url, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -82,7 +83,8 @@ const TicketList: React.FC<TicketListProps> = ({ tmcId }) => {
         if (!window.confirm('Are you sure you want to delete this ticket? This action cannot be undone.')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3000/api/tickets/${id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.delete(`${apiUrl}/api/tickets/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
         } catch (error) {

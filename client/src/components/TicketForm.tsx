@@ -53,11 +53,12 @@ const TicketForm: React.FC<TicketFormProps> = ({ isOpen, onClose, onSuccess, ini
     const fetchTrucksAndDrivers = async () => {
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             const [trucksRes, usersRes] = await Promise.all([
-                axios.get(`http://localhost:3000/api/trucks?tmcId=${user?.tmc_id}`, {
+                axios.get(`${apiUrl}/api/trucks?tmcId=${user?.tmc_id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 }),
-                axios.get('http://localhost:3000/api/users', {
+                axios.get(`${apiUrl}/api/users`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
             ]);
@@ -86,6 +87,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ isOpen, onClose, onSuccess, ini
 
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             const payload = {
                 tmcId: user?.tmc_id,
                 truckId: parseInt(selectedTruck),
@@ -97,11 +99,11 @@ const TicketForm: React.FC<TicketFormProps> = ({ isOpen, onClose, onSuccess, ini
             };
 
             if (initialData) {
-                await axios.put(`http://localhost:3000/api/tickets/${initialData.id}`, payload, {
+                await axios.put(`${apiUrl}/api/tickets/${initialData.id}`, payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post('http://localhost:3000/api/tickets', payload, {
+                await axios.post(`${apiUrl}/api/tickets`, payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }

@@ -36,7 +36,8 @@ const Materials: React.FC = () => {
     const fetchMaterials = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:3000/api/materials/inventory?tmcId=${user?.tmc_id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/materials/inventory?tmcId=${user?.tmc_id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMaterials(response.data);

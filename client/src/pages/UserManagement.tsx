@@ -41,7 +41,8 @@ const UserManagement: React.FC = () => {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/users', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/users`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(response.data);
@@ -58,7 +59,8 @@ const UserManagement: React.FC = () => {
     const handleDelete = async (userId: number) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:3000/api/users/${userId}`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            await axios.delete(`${apiUrl}/api/users/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setDeleteConfirm(null);

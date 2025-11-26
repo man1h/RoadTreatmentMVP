@@ -38,7 +38,8 @@ const UserForm: React.FC<UserFormProps> = ({ isOpen, onClose, user, onSuccess })
 
     const fetchTMCs = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/tmc');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/tmc`);
             setTmcs(response.data);
         } catch (error) {
             console.error('Error fetching TMCs:', error);
@@ -52,17 +53,19 @@ const UserForm: React.FC<UserFormProps> = ({ isOpen, onClose, user, onSuccess })
 
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
             if (user) {
                 // Update existing user
                 await axios.put(
-                    `http://localhost:3000/api/users/${user.id}`,
+                    `${apiUrl}/api/users/${user.id}`,
                     formData,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
             } else {
                 // Create new user
                 await axios.post(
-                    'http://localhost:3000/api/users',
+                    `${apiUrl}/api/users`,
                     formData,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );

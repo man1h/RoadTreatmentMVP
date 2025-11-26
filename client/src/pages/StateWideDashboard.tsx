@@ -33,7 +33,8 @@ const StateWideDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/dashboard/statewide', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/dashboard/statewide`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTmcStats(response.data.tmcStats);
@@ -48,7 +49,8 @@ const StateWideDashboard: React.FC = () => {
     const fetchPreferences = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3000/api/preferences/tmc', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${apiUrl}/api/preferences/tmc`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setPreferences(response.data);
@@ -60,8 +62,9 @@ const StateWideDashboard: React.FC = () => {
     const toggleTMCMonitoring = async (tmcId: number, currentState: boolean) => {
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             await axios.put(
-                `http://localhost:3000/api/preferences/tmc/${tmcId}`,
+                `${apiUrl}/api/preferences/tmc/${tmcId}`,
                 { isMonitoring: !currentState },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

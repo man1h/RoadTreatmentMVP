@@ -26,8 +26,9 @@ const TruckForm: React.FC<TruckFormProps> = ({ isOpen, onClose, onSuccess }) => 
 
         try {
             const token = localStorage.getItem('token');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             await axios.post(
-                'http://localhost:3000/api/trucks',
+                `${apiUrl}/api/trucks`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
